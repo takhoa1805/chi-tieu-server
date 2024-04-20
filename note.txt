@@ -2,3 +2,6 @@ MONGODB:
 - username: takhoa
 - pw: takhoa
 - connection string: mongodb+srv://takhoa:takhoa@chi-tieu-database.q7ezyqp.mongodb.net/
+
+ONRENDER:
+- https://chi-tieu-server.onrender.com
