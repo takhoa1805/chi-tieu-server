@@ -8,7 +8,7 @@ import { AppService } from './app.service';
 
 // ROUTING:
 // Use the decorator '@CONTROLLER()'
-// Specify an optional route path inside. ex: @controller("path") 
+// Specify an optional route path inside. ex: @controller("path")
 // => allows us to easily group a set of related routes, and minimize repetitive code
 // => 'nest g controller [name]' to create a controller using cli
 
