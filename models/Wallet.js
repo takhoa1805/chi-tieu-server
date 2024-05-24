@@ -4,7 +4,7 @@ const Wallet = new Schema({
     user: {type: Schema.Types.ObjectId,required:true,ref:'User'},
     name: {type:String, required:true},
     balance: {type:Number, required:true},
-    detail:{type:String,required:false},
+    detail:{type:String,required:false, default: 'None'},
 })
 
 module.exports = mongoose.model('Wallet',Wallet);

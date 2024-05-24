@@ -10,6 +10,7 @@ const usersRouter = require('./routes/users');
 const transactionsRouter = require('./routes/transactions');
 const walletsRouter = require('./routes/wallets');
 const statisticsRouter = require('./routes/statistics');
+const savingsRouter = require('./routes/savings');
 
 
 const app = express();
@@ -29,6 +30,8 @@ app.use('/users', usersRouter);
 app.use('/statistics',statisticsRouter);
 app.use('/transactions',transactionsRouter);
 app.use('/wallets',walletsRouter);
+app.use('/savings',savingsRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -50,6 +53,4 @@ module.exports = app;
 
 
 
-// READING BASIC ROUTING AT: https://expressjs.com/en/starter/basic-routing.html
-// NEXT UP: GUIDE PART:https://expressjs.com/en/guide/routing.html
-// EXPRESS MIDDLEWARE: https://expressjs.com/en/resources/middleware.html
+// READING https://expressjs.com/en/guide/overriding-express-api.html
