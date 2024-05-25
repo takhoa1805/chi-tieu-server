@@ -53,4 +53,5 @@ module.exports = app;
 
 
 
-// READING https://expressjs.com/en/guide/overriding-express-api.html
+// READING https://viblo.asia/p/tim-hieu-ve-json-web-token-jwt-7rVRqp73v4bP
+// IMPLEMENTING JSONWEBTOKEN STUFF https://www.npmjs.com/package/jsonwebtoken

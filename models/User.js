@@ -10,7 +10,6 @@ const User = new Schema({
     wallets: [{type: Schema.Types.ObjectId,required:false,ref:'Wallet'}],
     transactions:[{type: Schema.Types.ObjectId,required:false,ref:'Transaction'}],
     savings:[{type: Schema.Types.ObjectId,required:false,ref:'Saving'}],
-    salt:String,
 })
 
 module.exports = mongoose.model('User',User);
