@@ -54,4 +54,6 @@ module.exports = app;
 
 
 // READING https://viblo.asia/p/tim-hieu-ve-json-web-token-jwt-7rVRqp73v4bP
+// https://viblo.asia/p/jwt-va-ung-dung-cua-no-vyDZOMRk5wj
+// https://viblo.asia/p/jwt-va-cac-ky-thuat-khai-thac-phan-1-maGK7rRB5j2
 // IMPLEMENTING JSONWEBTOKEN STUFF https://www.npmjs.com/package/jsonwebtoken
