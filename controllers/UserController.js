@@ -24,7 +24,7 @@ class UserController {
             try{
                 // Hash password before storing to database
                 const hashed_password = await hash_password(password);
-                const NewUser = new UserModel({
+                const result = await  UserModel.create({
                     _id: new mongoose.Types.ObjectId(),
                     email:email,
                     password: hashed_password,
@@ -32,7 +32,7 @@ class UserController {
                     phone_number:phone_number
                 });
 
-                const result = await NewUser.save();
+                // const result = await NewUser.insertOne();
 
                 return {
                     messge:'Account created successfully',
