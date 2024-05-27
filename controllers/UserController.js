@@ -84,6 +84,24 @@ class UserController {
             throw error;
         }
     }
+
+
+    // GET INFORMATION HANDLER
+    async getInfo(input){
+        const {user_id} = input;
+        try{
+            const data = await UserModel.findOne({_id:user_id});
+            if(data){
+                return data;
+            }   else return {
+                error:{
+                    message:'User not found'
+                }
+            }
+        }   catch(error){
+            throw error;
+        }
+    }
 }
 
 module.exports = new UserController();

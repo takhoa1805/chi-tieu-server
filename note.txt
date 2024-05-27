@@ -8,8 +8,16 @@ ONRENDER:
 
 
 ROUTES:
-- users
-- statistics
-- transactions
-- wallets
+- users:
+    - signin    
+    - signup
+    - get user information
+- wallets:
+    - create wallet
+    - update wallet information
+    - get all wallet information
+    - get single wallet information 
+    - delete wallet
 - savings
+- transactions
+- statistics
