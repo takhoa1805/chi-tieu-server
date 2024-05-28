@@ -67,14 +67,14 @@ class SavingController {
 
     }
 
-    // GET ALL WALLET HANDLER
-    async getWallets(input){
+    // GET ALL SAVINGS HANDLER
+    async getSavings(input){
         const {user_id} = input;
         try{
-            const result = await WalletModel.find({user:user_id});
+            const result = await SavingModel.find({user:user_id});
 
             return {
-                wallets:result
+                savings:result
             }
 
         }   catch(error){
@@ -82,26 +82,26 @@ class SavingController {
         }
     }
 
-    // GET WALLET BY NAME HANDLER
-    async getWalletByName(input){
-        const {user_id,name} = input;
+    // GET SAVING BY ITS TITLE HANDLER
+    async getSavingByTitle(input){
+        const {user_id,title} = input;
         try{
-            const result = await WalletModel.findOne({user:user_id,name:name});
+            const result = await SavingModel.find({user:user_id,title:title});
             return {
-                wallet: result
+                saving: result
             }
         }   catch(error){
             throw (error);
         }
     }
 
-    // GET WALLET BY ID HANDLER
-    async getWalletById(input){
+    // GET SAVING BY ID HANDLER
+    async getSavingById(input){
         const {user_id,id} = input;
         try{
-            const result = await WalletModel.findOne({user:user_id,_id:id});
+            const result = await SavingModel.findOne({user:user_id,_id:id});
             return {
-                wallet: result
+                saving: result
             }
         }   catch(error){
             throw (error);
@@ -109,56 +109,48 @@ class SavingController {
     }
 
     // UPDATE WALLET INFORMATION HANDLER
-    async updateWallet(input){
-        const {_id,name,balance,detail,user_id} = input;
+    async updateSaving(input){
+        const {_id,wallet,user_id,amount,saved_amount,title,category,detail,is_completed} = input;
         try{
-            const wallet = await WalletModel.findOne({user:user_id,_id:_id});
+            const saving = await SavingModel.findOne({user:user_id,_id:_id});
 
-            if (!wallet){
-                console.log("Wallet not found");
+            if (!saving){
+                console.log("Saving not found");
                 return {
                     error:{
-                        message:'Wallet not found'
-                    }
-                }
-            }
-
-            
-            // If user want to change wallet's name, check for name that exists
-            if (name && name != wallet.name){
-                const existedWalletName = await WalletModel.findOne({user:user_id,name:name});
-                if(existedWalletName){
-                    console.log("New wallet name is not available");
-                    return {
-                        error:{
-                            message:'New wallet name has existed'
-                        }
+                        message:'Saving not found'
                     }
                 }
             }
 
             // update fields
-            wallet.name = (name) ? name : wallet.name;
-            wallet.balance = (balance) ? balance : wallet.balance;
-            wallet.detail = (detail) ? detail : wallet.detail;
+            saving.wallet = wallet ? wallet : saving.wallet;
+            saving.amount = amount ? amount : saving.amount;
+            saving.saved_amount = saved_amount ? saved_amount : saving.saved_amount;
+            saving.title = title ? title : saving.title;
+            saving.category = category ? category : saving.category;
+            saving.detail = detail ? detail : saving.detail;
+            saving.is_completed = is_completed ? is_completed : saving.is_completed;
+
 
             // save result
-            const result = await wallet.save();
+            const result = await saving.save();
 
 
             return {
-                wallet: result
+                message:"Saved changes",
+                saving: result
             }
         }   catch(error){
             throw (error);
         }
     }
 
-    // DELETE WALLET HANDLER
-    async deleteWallet(input){
+    // DELETE SAVING HANDLER
+    async deleteSaving(input){
         const {_id,user_id} = input;
         try{
-            const wallet = await WalletModel.findOne({user:user_id,_id:_id});
+            const saving = await SavingModel.findOne({user:user_id,_id:_id});
             const user = await UserModel.findOne({_id:user_id});
 
             // verify user
@@ -171,20 +163,20 @@ class SavingController {
                 };
             }
             // verify wallet
-            if (!wallet){
-                console.log("Wallet not found");
+            if (!saving){
+                console.log("Saving not found");
                 return {
                     error:{
-                        message:'Wallet not found'
+                        message:'Saving not found'
                     }
                 }
             }
 
             // delete wallet model
-            const result = await wallet.deleteOne();
+            const result = await saving.deleteOne();
             // update user wallets model
             if (result.acknowledged){
-                user.wallets.pop(_id);
+                user.savings.pop(_id);
                 await user.save();
             }   else {
                 return {

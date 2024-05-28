@@ -137,6 +137,7 @@ class WalletController {
 
 
             return {
+                message:"Saved changes",
                 wallet: result
             }
         }   catch(error){
@@ -151,6 +152,7 @@ class WalletController {
             const wallet = await WalletModel.findOne({user:user_id,_id:_id});
             const user = await UserModel.findOne({_id:user_id});
             const saving = await SavingModel.findOne({wallet:_id});
+            
 
             // verify user
             if (!user){

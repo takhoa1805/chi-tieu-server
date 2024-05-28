@@ -36,17 +36,17 @@ router.get('/', authorize_user,async (req, res, next)  => {
 
 });
 
-// GET SAVING WITH NAME
-router.get('/find/:name',authorize_user,async (req,res,next) =>{
+// GET SAVING WITH TITLE
+router.get('/find/:title',authorize_user,async (req,res,next) =>{
   const user_id = req.user._id;
-  const name = req.params.name;
+  const title = req.params.title;
   try{
     if (!user_id){
       console.log("Error: Cannot find user id");
       return res.status(404).json({message:'User not found'});
     }
     
-    if (!name){
+    if (!title){
       return res.status(400).json({
         error:{
           message:'Invalid request'
@@ -54,7 +54,7 @@ router.get('/find/:name',authorize_user,async (req,res,next) =>{
       });
     }
 
-    const data = await SavingController.getSavingByName({user_id,name});
+    const data = await SavingController.getSavingByTitle({user_id,title});
     
     if (!data){
       return res.status(400).json({

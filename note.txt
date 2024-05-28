@@ -13,11 +13,16 @@ ROUTES:
     - signup
     - get user information
 - wallets:
-        - create wallet
-        - update wallet information
-        - get all wallet information
-        - get single wallet information 
-        - delete wallet
+    - create wallet
+    - update user's wallet information
+    - get all user's wallet information
+    - get single user's wallet information 
+    - delete user's wallet
 - savings
+    - create savings
+    - update user's saving information
+    - get all user's saving information
+    - get single user's saving information 
+    - delete user's saving
 - transactions
 - statistics
