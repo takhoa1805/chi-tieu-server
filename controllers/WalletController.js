@@ -150,6 +150,7 @@ class WalletController {
         try{
             const wallet = await WalletModel.findOne({user:user_id,_id:_id});
             const user = await UserModel.findOne({_id:user_id});
+            const saving = await SavingModel.findOne({wallet:_id});
 
             // verify user
             if (!user){
@@ -172,9 +173,11 @@ class WalletController {
 
             // delete wallet model
             const result = await wallet.deleteOne();
-            // update user wallets model
+            // update user wallets and savings model
             if (result.acknowledged){
                 user.wallets.pop(_id);
+                saving.wallet = null;
+                await saving.save();
                 await user.save();
             }   else {
                 return {
