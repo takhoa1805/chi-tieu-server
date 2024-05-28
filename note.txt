@@ -1,7 +1,7 @@
 MONGODB:
 - username: takhoa
 - pw: takhoa
-- connection string: mongodb+srv://takhoa:takhoa@chi-tieu-database.q7ezyqp.mongodb.net/
+- connection string: mongodb+srv://takhoa:takhoa@chi-tieu-database.q7ezyqp.mongodb.net/chi-tieu-database
 
 ONRENDER:
 - https://chi-tieu-server.onrender.com
@@ -13,11 +13,11 @@ ROUTES:
     - signup
     - get user information
 - wallets:
-    - create wallet
-    - update wallet information
-    - get all wallet information
-    - get single wallet information 
-    - delete wallet
+        - create wallet
+        - update wallet information
+        - get all wallet information
+        - get single wallet information 
+        - delete wallet
 - savings
 - transactions
 - statistics
