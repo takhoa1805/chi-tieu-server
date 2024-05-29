@@ -75,8 +75,9 @@ class WalletController {
     // GET WALLET BY NAME HANDLER
     async getWalletByName(input){
         const {user_id,name} = input;
+        const name_regex = new RegExp(name,'i');
         try{
-            const result = await WalletModel.findOne({user:user_id,name:name});
+            const result = await WalletModel.findOne({user:user_id,name:name_regex});
             return {
                 wallet: result
             }
