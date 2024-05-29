@@ -99,7 +99,7 @@ class TransactionController {
         const {user_id,category} = input;
         const category_regex = new RegExp(category,'i');
         try{
-            const result = await TransactionModel.find({user:user_id,title:category_regex});
+            const result = await TransactionModel.find({user:user_id,category:category_regex});
             return {
                 transactions: result
             }
