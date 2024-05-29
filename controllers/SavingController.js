@@ -85,8 +85,23 @@ class SavingController {
     // GET SAVING BY ITS TITLE HANDLER
     async getSavingByTitle(input){
         const {user_id,title} = input;
+        const title_regrex = new RegExp(title,'i');
         try{
-            const result = await SavingModel.find({user:user_id,title:title});
+            const result = await SavingModel.find({user:user_id,title:title_regrex});
+            return {
+                saving: result
+            }
+        }   catch(error){
+            throw (error);
+        }
+    }
+    
+    // GET SAVING BY ITS CATEGORY HANDLER
+    async getSavingByCategory(input){
+        const {user_id,category} = input;
+        const category_regex = new RegExp(category,'i');
+        try{
+            const result = await SavingModel.find({user:user_id,title:category_regex});
             return {
                 saving: result
             }

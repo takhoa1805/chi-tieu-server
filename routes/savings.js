@@ -37,7 +37,7 @@ router.get('/', authorize_user,async (req, res, next)  => {
 });
 
 // GET SAVING WITH TITLE
-router.get('/find/:title',authorize_user,async (req,res,next) =>{
+router.get('/find_title/:title',authorize_user,async (req,res,next) =>{
   const user_id = req.user._id;
   const title = req.params.title;
   try{
@@ -94,6 +94,44 @@ router.get('/find_id/:id',authorize_user,async (req,res,next) =>{
     }
 
     const data = await SavingController.getSavingById({user_id,id});
+    
+    if (!data){
+      return res.status(400).json({
+        error:{
+          message:'Invalid request'
+        }
+      });
+    } else if (data.error){
+      console.log(data.error);
+      return res.status(400).json(data);
+    }
+
+    return res.status(200).json(data);
+  } catch(error){
+    console.log("Error happens: " + error);
+    return res.status(500).json({message:'Error happens'});
+  }
+
+});
+
+// GET SAVING WITH CATEGORY
+router.get('/find_category/:category',authorize_user,async (req,res,next) =>{
+  const user_id = req.user._id;
+  const category = req.params.category;
+  try{
+    if (!user_id){
+      console.log("Error: Cannot find user id");
+      return res.status(404).json({message:'User not found'});
+    }
+    if (!category){
+      return res.status(400).json({
+        error:{
+          message:'Invalid request'
+        }
+      });
+    }
+
+    const data = await SavingController.getSavingByCategory({user_id,category});
     
     if (!data){
       return res.status(400).json({

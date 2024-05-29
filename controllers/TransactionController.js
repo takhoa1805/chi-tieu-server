@@ -12,7 +12,7 @@ const UserModel = require('../models/User');
 const WalletModel = require('../models/Wallet');
 
 class TransactionController {
-    // CREATE WALLET HANDLER
+    // CREATE TRANSACTION HANDLER
     async createTransaction(input){
         const {wallet,user_id,amount,title,category,detail} = input;
 
@@ -65,14 +65,14 @@ class TransactionController {
 
     }
 
-    // GET ALL SAVINGS HANDLER
-    async getSavings(input){
+    // GET ALL TRANSACTIONS HANDLER
+    async getTransactions(input){
         const {user_id} = input;
         try{
-            const result = await SavingModel.find({user:user_id});
+            const result = await TransactionModel.find({user:user_id});
 
             return {
-                savings:result
+                transactions:result
             }
 
         }   catch(error){
@@ -80,26 +80,122 @@ class TransactionController {
         }
     }
 
-    // GET SAVING BY ITS TITLE HANDLER
-    async getSavingByTitle(input){
+    // GET TRANSACTION BY ITS TITLE HANDLER
+    async getTransactionByTitle(input){
         const {user_id,title} = input;
+        const title_regex = new RegExp(title,'i');
         try{
-            const result = await SavingModel.find({user:user_id,title:title});
+            const result = await TransactionModel.find({user:user_id,title:title_regex});
             return {
-                saving: result
+                transactions: result
             }
         }   catch(error){
             throw (error);
         }
     }
 
-    // GET SAVING BY ID HANDLER
-    async getSavingById(input){
+    // GET TRANSACTION BY ITS TITLE HANDLER
+    async getTransactionByCategory(input){
+        const {user_id,category} = input;
+        const category_regex = new RegExp(category,'i');
+        try{
+            const result = await TransactionModel.find({user:user_id,title:category_regex});
+            return {
+                transactions: result
+            }
+        }   catch(error){
+            throw (error);
+        }
+    }
+
+    // GET TRANSACTION BY ID HANDLER
+    async getTransactionById(input){
         const {user_id,id} = input;
         try{
-            const result = await SavingModel.findOne({user:user_id,_id:id});
+            const result = await TransactionModel.findOne({user:user_id,_id:id});
             return {
-                saving: result
+                transaction: result
+            }
+        }   catch(error){
+            throw (error);
+        }
+    }
+
+    // GET TRANSACTIONS TODAY
+    async getTransactionsToday(input){
+        const {user_id} = input;
+
+        // generate beginning of the day
+        const today = new Date();
+        today.setHours(0,0,0,0);
+
+        try{
+            const result = await TransactionModel.find({user:user_id, createdTime: {$gte: today.toISOString()}});
+            return {
+                transactions: result
+            }
+        }   catch(error){
+            throw (error);
+        }
+    }
+
+
+    // GET TRANSACTIONS THIS WEEK
+    async getTransactionsThisWeek(input){
+        const {user_id} = input;
+
+        // generate beginning of the week
+        const today = new Date();
+        const day = today.getDay();
+        const offset = day === 0 ? 6: day - 1;
+        const weekStart = new Date(today.getTime() - offset * 24 * 60 * 60 * 1000);
+        const beginOfWeek = weekStart.toISOString().split('T')[0] + 'T00:00:00';
+
+        try{
+            const result = await TransactionModel.find({user:user_id, createdTime: {$gte: beginOfWeek}});
+            return {
+                transactions: result
+            }
+        }   catch(error){
+            throw (error);
+        }
+    }
+
+    // GET TRANSACTIONS THIS MONTH
+    async getTransactionsThisMonth(input){
+        const {user_id} = input;
+
+        // generate beginning of the week
+        const today = new Date();
+        today.setDate(1);
+        today.setHours(0,0,0,0);
+        const beginOfMonth = today.toISOString();
+
+        try{
+            const result = await TransactionModel.find({user:user_id, createdTime: {$gte: beginOfMonth}});
+            return {
+                transactions: result
+            }
+        }   catch(error){
+            throw (error);
+        }
+    }
+
+    // GET TRANSACTIONS THIS YEAR
+    async getTransactionsThisYear(input){
+        const {user_id} = input;
+
+        // generate beginning of the week
+        const today = new Date();
+        today.setDate(1);
+        today.setMonth(1);
+        today.setHours(0,0,0,0);
+        const beginOfYear = today.toISOString();
+
+        try{
+            const result = await TransactionModel.find({user:user_id, createdTime: {$gte: beginOfYear}});
+            return {
+                transactions: result
             }
         }   catch(error){
             throw (error);
@@ -107,48 +203,46 @@ class TransactionController {
     }
 
     // UPDATE WALLET INFORMATION HANDLER
-    async updateSaving(input){
-        const {_id,wallet,user_id,amount,saved_amount,title,category,detail,is_completed} = input;
+    async updateTransaction(input){
+        const {_id,wallet,user_id,amount,title,category,detail} = input;
         try{
-            const saving = await SavingModel.findOne({user:user_id,_id:_id});
+            const transaction = await TransactionModel.findOne({user:user_id,_id:_id});
 
-            if (!saving){
-                console.log("Saving not found");
+            if (!transaction){
+                console.log("Transaction not found");
                 return {
                     error:{
-                        message:'Saving not found'
+                        message:'Transaction not found'
                     }
                 }
             }
 
             // update fields
-            saving.wallet = wallet ? wallet : saving.wallet;
-            saving.amount = amount ? amount : saving.amount;
-            saving.saved_amount = saved_amount ? saved_amount : saving.saved_amount;
-            saving.title = title ? title : saving.title;
-            saving.category = category ? category : saving.category;
-            saving.detail = detail ? detail : saving.detail;
-            saving.is_completed = is_completed ? is_completed : saving.is_completed;
+            transaction.wallet = wallet ? wallet : transaction.wallet;
+            transaction.amount = amount ? amount : transaction.amount;
+            transaction.title = title ? title : transaction.title;
+            transaction.category = category ? category : transaction.category;
+            transaction.detail = detail ? detail : transaction.detail;
 
 
             // save result
-            const result = await saving.save();
+            const result = await transaction.save();
 
 
             return {
                 message:"Saved changes",
-                saving: result
+                transaction: result
             }
         }   catch(error){
             throw (error);
         }
     }
 
-    // DELETE SAVING HANDLER
-    async deleteSaving(input){
+    // DELETE TRANSACTION HANDLER
+    async deleteTransaction(input){
         const {_id,user_id} = input;
         try{
-            const saving = await SavingModel.findOne({user:user_id,_id:_id});
+            const transaction = await TransactionModel.findOne({user:user_id,_id:_id});
             const user = await UserModel.findOne({_id:user_id});
 
             // verify user
@@ -161,20 +255,20 @@ class TransactionController {
                 };
             }
             // verify wallet
-            if (!saving){
-                console.log("Saving not found");
+            if (!transaction){
+                console.log("Transaction not found");
                 return {
                     error:{
-                        message:'Saving not found'
+                        message:'Transaction not found'
                     }
                 }
             }
 
             // delete wallet model
-            const result = await saving.deleteOne();
+            const result = await transaction.deleteOne();
             // update user wallets model
             if (result.acknowledged){
-                user.savings.pop(_id);
+                user.transactions.pop(_id);
                 await user.save();
             }   else {
                 return {
