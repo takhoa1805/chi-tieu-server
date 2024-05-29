@@ -270,7 +270,7 @@ router.get('/find_year',authorize_user,async (req,res,next) =>{
 // CREATE TRANSACTION
 router.post('/create',authorize_user,async(req,res,next)=>{
   const user_id = req.user._id;
-  var {wallet,amount,title,category,detail} = req.body;
+  var {wallet,amount,title,category,detail,createdTime} = req.body;
   try{
     if (!user_id){
       console.log("Error: Cannot find user id");
@@ -297,7 +297,7 @@ router.post('/create',authorize_user,async(req,res,next)=>{
       detail = 'None';
     }
 
-    const data = await TransactionController.createTransaction({wallet,user_id,amount,title,category,detail});
+    const data = await TransactionController.createTransaction({wallet,user_id,amount,title,category,detail,createdTime});
     
     if (!data){
       return res.status(400).json({

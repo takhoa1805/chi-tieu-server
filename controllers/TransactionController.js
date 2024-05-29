@@ -14,7 +14,7 @@ const WalletModel = require('../models/Wallet');
 class TransactionController {
     // CREATE TRANSACTION HANDLER
     async createTransaction(input){
-        const {wallet,user_id,amount,title,category,detail} = input;
+        const {wallet,user_id,amount,title,category,detail,createdTime} = input;
 
         try{
             // Get user model to update its information
@@ -39,7 +39,7 @@ class TransactionController {
                 title:title,
                 category:category,
                 detail:detail,
-                createdTime: Date.now()
+                createdTime: createdTime ? createdTime : Date.now()
             })
 
             if (result){

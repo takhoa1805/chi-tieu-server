@@ -7,7 +7,7 @@ const Transaction = new Schema({
     title: {type:String,required:true},
     category: {type:String,required:false, default:'Other'},
     detail:{type:String,required:false, default: 'None'},
-    createdTime: {type:Date, required:true},
+    createdTime: {type:Date, required:true, default:Date.now()},
 })
 
 module.exports = mongoose.model('Transaction',Transaction);
