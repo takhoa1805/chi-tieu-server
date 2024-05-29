@@ -77,7 +77,7 @@ class WalletController {
         const {user_id,name} = input;
         const name_regex = new RegExp(name,'i');
         try{
-            const result = await WalletModel.findOne({user:user_id,name:name_regex});
+            const result = await WalletModel.find({user:user_id,name:name_regex});
             return {
                 wallet: result
             }
