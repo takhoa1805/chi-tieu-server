@@ -176,7 +176,7 @@ router.post('/create',authorize_user,async(req,res,next) =>{
 });
 
 // UPDATE SAVING INFORMATION
-router.post('/update/',authorize_user,async(req,res,next) =>{
+router.post('/update',authorize_user,async(req,res,next) =>{
   const user_id = req.user._id;
   var {_id,wallet,amount,saved_amount,title,category,detail,is_completed} = req.body;
 
