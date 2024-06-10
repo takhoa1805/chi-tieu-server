@@ -1,0 +1,33 @@
+networks:
+  chi-tieu:
+
+services:
+  app:
+    image: node:20-alpine
+    command: sh -c "npm install && npm install http-errors && npm install -g nodemon && npm start"
+    ports:
+      - 127.0.0.1:3000:3000
+    expose:
+      - 3000
+    working_dir: /app
+    volumes:
+      - type: bind
+        source: ./
+        target: /app
+    networks:
+      chi-tieu:
+        aliases:
+        - chi-tieu-server-app
+
+  mongodb:
+    image: mongo
+    ports:
+      - 127.0.0.1:3001:27017
+    expose:
+      - 27017
+    networks:
+      chi-tieu:
+        aliases:
+        - mongodb 
+
+    
